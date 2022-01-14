@@ -7,11 +7,12 @@ import {UserDetails} from './Card/Container';
 const Main = () => {
   return (
     // <Counter.Provider initialState={2}>
+    // </Counter.Provider>
+    // <CounterDisplay />
+
     <UserDetails.Provider>
-      {/* <CounterDisplay /> */}
       <Card />
     </UserDetails.Provider>
-    // </Counter.Provider>
   );
 };
 

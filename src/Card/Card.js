@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
-  SafeAreaView,
-  StatusBar,
+  RefreshControl,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -11,6 +11,14 @@ import {UserDetails} from './Container';
 
 const Card = () => {
   const {getData, user} = UserDetails.useContainer();
+
+  const [refresh, setRefresh] = useState(false);
+
+  const onRefresh = async () => {
+    setRefresh(true);
+    await getData();
+    setRefresh(false);
+  };
 
   const fetchData = async () => {
     await getData();
@@ -22,14 +30,16 @@ const Card = () => {
   }, []);
 
   if (user?.length) {
-    const {email, gender, phone, location} = user[0];
     console.log(JSON.stringify(user, null, 2));
-    console.log(email);
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar />
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{flexGrow: 1}}
+      refreshControl={
+        <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+      }>
       <View style={styles.profile}>
         <View style={styles.imgView}>
           <Image
@@ -58,7 +68,7 @@ const Card = () => {
           </Text>
         </View>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 
